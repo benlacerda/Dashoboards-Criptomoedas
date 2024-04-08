@@ -11,9 +11,9 @@ app = Dash(__name__)
 
 ### Graph Marketcap
 
-df_btc = pd.read_csv('/Users/benjamim/PycharmProjects/DashAPC/venv/data/coin_Bitcoin.csv')
+df_btc = pd.read_csv('dashs\coin_Bitcoin.csv')
 df_btc_array = df_btc.values
-df_eth = pd.read_csv('/Users/benjamim/PycharmProjects/DashAPC/venv/data/coin_Ethereum.csv')
+df_eth = pd.read_csv('dashs\coin_Ethereum.csv')
 df_eth_array = df_eth.values
 
 marketcap_btc = []
@@ -40,7 +40,7 @@ graph_marketcap = px.line(x=df_marketcap['data'], y=media_marketcap)
 
 ### Graph volume de transacoes
 
-df_1 = pd.read_csv('/Users/benjamim/PycharmProjects/DashAPC/venv/data/AllCoin.csv')
+df_1 = pd.read_csv('dashs\AllCoin.csv')
 df_array_1 = df_1.values
 
 anos1 = []
@@ -60,8 +60,8 @@ graph_volume= px.histogram(lista_volume, x=anos1, y=volume, color=name)
 
 # Layout
 app.layout = html.Div([
-    html.H1("Criptomoedas"),
-    html.H3( "Grupo B"),
+    html.H1("Analise de Criptomoedas"),
+    html.H3( "Disciplina: APC  Grupo B"),
 
     html.Div(children=[
         dcc.Dropdown(
@@ -71,7 +71,11 @@ app.layout = html.Div([
         dcc.Graph(
             id = 'graph-volume'
         )# graph 1
-    ])
+    ]),
+    dcc.Graph(
+        id='graph-marketcap',
+        figure=graph_marketcap
+    )
 ])
 
 # Callback do 1 graph
@@ -89,6 +93,16 @@ def update_volume(value):
                             'font': {'size': 28}, 'x': 0.5, 'xanchor': 'center'}),
     return fig
 
+# Callback do 2 graph
+@app.callback(
+    Output('graph-marketcap', 'figure'),
+    Input('dropdown', 'value'))
+
+def update_marketcap(value):
+    # Coloque aqui a lógica de atualização do gráfico de marketcap com base no valor selecionado no dropdown
+    graph_marketcap.update_layout(title={'text': 'Marketcap entre Bitcoin e Ethereum',
+                                         'font': {'size': 28}, 'x': 0.5, 'xanchor': 'center'})
+    return graph_marketcap
 #roda o app
 if __name__ == "__main__" :
     app.run_server(debug = True)
