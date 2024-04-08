@@ -61,7 +61,7 @@ graph_volume= px.histogram(lista_volume, x=anos1, y=volume, color=name)
 # Layout
 app.layout = html.Div([
     html.H1("Analise de Criptomoedas"),
-    html.H3( "Disciplina: APC  Grupo B"),
+    html.H3( "Disciplina: APC  / Benjamim Lacerda"),
 
     html.Div(children=[
         dcc.Dropdown(
